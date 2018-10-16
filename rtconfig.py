@@ -15,7 +15,11 @@ if not os.path.exists('config/f4_Kconfig'):
     stm32_config_tools.RefreshSTM32List()
 ARCH='arm'
 CROSS_TOOL='gcc'
-CPU = stm32_config_tools.GetCPU()
+try:
+    CPU = stm32_config_tools.GetCPU()
+except:
+    CPU = 'not-choose'
+
 if CPU == 'cortex-m4':
     FPU = 'fpv4-sp-d16'
     FLOAT_ABI = 'hard'
