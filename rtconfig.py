@@ -11,8 +11,7 @@ if os.getenv('RTT_CC'):
 sys.path += [os.path.join(os.getcwd(), 'tools')]
 import stm32_config_tools
 
-if not os.path.exists('config/f4_Kconfig'):
-    stm32_config_tools.RefreshSTM32List()
+
 ARCH='arm'
 CROSS_TOOL='gcc'
 try:
