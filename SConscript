@@ -1,6 +1,10 @@
 # for module compiling
 import os
-import pin_get
+try:
+    import pin_get
+except:
+    print('Run "python tools/install.py" first')
+    exit(0)
 import rtconfig
 import soc_config
 import stm32_config_tools
