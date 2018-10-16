@@ -94,7 +94,7 @@ def RefreshSTM32List():
     CreateKconfig('config/l1_Kconfig','SOC_STM32L1',DeviceDic_L1)
     DeviceDic.update(DeviceDic_L1)
     DeviceDic_L0 = CreateDeviceDic('tools/Keil.STM32L0xx_DFP.pdsc')
-    CreateKconfig('config/l0_Kconfig','SOC_STM32H7',DeviceDic_L0)
+    CreateKconfig('config/l0_Kconfig','SOC_STM32L0',DeviceDic_L0)
     DeviceDic.update(DeviceDic_L0)
     DeviceDic_H7 = CreateDeviceDic('tools/Keil.STM32H7xx_DFP.pdsc')
     CreateKconfig('config/h7_Kconfig','SOC_STM32H7',DeviceDic_H7)
@@ -431,8 +431,9 @@ except:
     if os.getenv('RTT_ROOT'):
         RTT_ROOT = os.getenv('RTT_ROOT')
     else:
-        RTT_ROOT = os.path.normpath(os.getcwd() + '/../..')
-    sys.path = sys.path + [os.path.join(RTT_ROOT, 'tools')]
+        RTT_ROOT = os.path.normpath(os.getcwd() + '/rt-thread')
+    sys.path.append(os.path.join(RTT_ROOT, 'tools'))
+
     try:
         from building import *
     except:
