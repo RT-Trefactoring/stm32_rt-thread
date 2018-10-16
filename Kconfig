@@ -1,0 +1,164 @@
+mainmenu "RT-Thread Configuration"
+
+config $BSP_DIR
+    string
+    option env="BSP_ROOT"
+    default "."
+
+config $RTT_DIR
+    string
+    option env="RTT_ROOT"
+    default "../.."
+
+config $PKGS_DIR
+    string
+    option env="PKGS_ROOT"
+    default "packages"
+
+source "$RTT_DIR/Kconfig"
+source "$PKGS_DIR/Kconfig"
+
+choice 
+    prompt "Chip Core"
+    default SOC_ARM_CM4
+    config SOC_ARM_CM0
+        bool "Cortex M0"
+    config SOC_ARM_CM0_P
+        bool "Cortex M0+"
+    config SOC_ARM_CM3
+        bool "Cortex M3"
+    config SOC_ARM_CM4
+        bool "Cortex M4"
+    config SOC_ARM_CM7
+        bool "Cortex M7"
+endchoice
+
+choice 
+    prompt "Chip Series"
+    default SOC_STM32F4
+    config SOC_STM32F0
+        bool "STM32F0"
+        depends on SOC_ARM_CM0
+    config SOC_STM32L0
+        bool "STM32L0"
+        depends on SOC_ARM_CM0_P
+    config SOC_STM32F1
+        bool "STM32F1"
+        depends on SOC_ARM_CM3
+    config SOC_STM32L1
+        bool "STM32L1"
+        depends on SOC_ARM_CM3
+    config SOC_STM32F2
+        bool "STM32F2"
+        depends on SOC_ARM_CM3
+    config SOC_STM32F3
+        bool "STM32F3"
+        depends on SOC_ARM_CM4
+    config SOC_STM32F4
+        bool "STM32F4"
+        depends on SOC_ARM_CM4
+        select PKG_USING_STM32F4_HAL
+        select PKG_USING_STM32F4_DRIVERS
+    config SOC_STM32L4
+        bool "STM32L4"
+        depends on SOC_ARM_CM4
+    config SOC_STM32F7
+        bool "STM32F7"
+        depends on SOC_ARM_CM7
+    config SOC_STM32H7
+        bool "STM32H7"
+        depends on SOC_ARM_CM7
+endchoice
+
+source "config/f0_Kconfig"
+source "config/f1_Kconfig"
+source "config/f2_Kconfig"
+source "config/f3_Kconfig"
+source "config/f4_Kconfig"
+source "config/f7_Kconfig"
+source "config/h7_Kconfig"
+source "config/l0_Kconfig"
+source "config/l1_Kconfig"
+source "config/l4_Kconfig"
+
+config BSP_USING_HSI
+    bool "Using HSI as clock source"
+    default n
+config BSP_HSE_VALUE
+    int "HSE Value"
+    default 8000000
+    depends on !RT_USING_HSI
+config BSP_HSE_HCLK
+    int "System Clock Value"
+    default 84000000
+menu "Using UART"
+config BSP_USING_UART1
+    bool "Using UART1"
+    default y    
+    select RT_USING_SERIAL
+config BSP_USING_UART2
+    bool "Using UART2"
+    default n    
+    select RT_USING_SERIAL
+config BSP_USING_UART6
+    bool "Using UART6"
+    default n 
+    select RT_USING_SERIAL
+endmenu
+menu "Using SPI"
+config BSP_USING_SPI1
+    bool "Using SPI1"
+    default n 
+    select RT_USING_SPI
+config BSP_USING_SPI2
+    bool "Using SPI2"
+    default n  
+    select RT_USING_SPI
+config RT_USING_SPI3
+    bool "Using SPI3"
+    default n
+    select RT_USING_SPI
+endmenu
+menu "Using I2C"
+config BSP_USING_I2C1
+    bool "Using I2C1"
+    default n
+    select RT_USING_I2C
+config BSP_USING_I2C2
+    bool "Using I2C2"
+    default n
+    select RT_USING_I2C
+config BSP_USING_I2C3
+    bool "Using I2C3"
+    default n
+    select RT_USING_I2C
+endmenu
+config BSP_USING_RTC
+    bool "Using RTC"
+    default n
+    select RT_USING_RTC
+config BSP_USING_WDT
+    bool "Using Watch Dog"
+    default n
+    select RT_USING_WDT
+if RT_USING_USB_HOST
+menu "USB Host Config"
+    config USBH_USING_CONTROLLABLE_POWER
+        bool "using a gpio control usb power"
+        default y
+    if USBH_USING_CONTROLLABLE_POWER
+        config USBH_POWER_PIN
+            int "power control pin"
+            default 15
+        config USBH_CURRENT_PIN
+            int "current check pin"
+            default 86
+    endif
+    config USBH_USING_VBUS
+        bool "using vbus check pin"
+        default n
+endmenu
+endif
+
+    
+    
