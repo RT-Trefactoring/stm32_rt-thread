@@ -15,11 +15,14 @@ for option in BuildOptions.keys():
     if 'CHIP' in option:
         chip_name = option.replace('CHIP_','')
         break
-
-rom_base = soc_config.DeviceDic[chip_name]['ROM_BASE']
-rom_size = soc_config.DeviceDic[chip_name]['ROM_SIZE']
-ram_base = soc_config.DeviceDic[chip_name]['RAM_BASE']
-ram_size = soc_config.DeviceDic[chip_name]['RAM_SIZE']
+try:
+    rom_base = soc_config.DeviceDic[chip_name]['ROM_BASE']
+    rom_size = soc_config.DeviceDic[chip_name]['ROM_SIZE']
+    ram_base = soc_config.DeviceDic[chip_name]['RAM_BASE']
+    ram_size = soc_config.DeviceDic[chip_name]['RAM_SIZE']
+except:
+    print('Run menuconfig first')
+    exit(0)
 stm32_config_tools.mdk5_config(cwd + '/template.uvprojx',soc_config.DeviceDic[chip_name])
 stm32_config_tools.sct_config(rom_base, rom_size, ram_base, ram_size, os.path.join(cwd,'rtthread_stm32.sct'))
 stm32_config_tools.ld_config(rom_base, rom_size, ram_base, ram_size, os.path.join(cwd,'rtthread_stm32.ld'))
