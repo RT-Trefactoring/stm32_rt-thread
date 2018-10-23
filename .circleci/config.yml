@@ -39,7 +39,7 @@ jobs:
             export PATH=~/.env/tools/scripts:$PATH
       - run:
           name: Setup stm32-rtthread bsp
-          command: python tools/install
+          command: python tools/install.py
       - run:
           name: Get GCC
           command: |
