@@ -32,7 +32,7 @@ jobs:
             python -m site
             pip freeze
             python -c "import site; print(site.getsitepackages())"
-            export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/scons-3.0.1ßß
+            export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/scons-3.0.1
             if [ ! -d ~/.env ]
             then
             mkdir ~/.env
