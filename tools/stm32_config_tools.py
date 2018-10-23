@@ -436,7 +436,7 @@ except:
 
     try:
         from building import *
-    except MyException,e:
+    except e:
         print('Cannot found RT-Thread root directory, please check RTT_ROOT')
         print(RTT_ROOT)
         print(e.message)
