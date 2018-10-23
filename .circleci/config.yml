@@ -10,7 +10,7 @@ jobs:
           command: |
             apt update
             apt install -y sudo vim
-            apt install -y python scons gcc make git
+            apt install -y python python-pip gcc make git
             apt install -y lib32ncurses5 lib32z1 net-tools inetutils-ping wget curl
             dpkg --add-architecture i386
             apt update
