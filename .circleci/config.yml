@@ -29,8 +29,6 @@ jobs:
             pip install scons
             pip install requests
             pip install clint
-            export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/scons-3.0.1
-            python -m site
             if [ ! -d ~/.env ]
             then
             mkdir ~/.env
@@ -40,7 +38,6 @@ jobs:
             git clone https://github.com/RT-Thread/env.git ~/.env/tools/scripts
             echo -e "source \"$PKGS_DIR/packages/Kconfig\" \c" >> ~/.env/packages/Kconfig
             fi
-            export PATH=~/.env/tools/scripts:$PATH
       - run:
           name: Setup stm32-rtthread bsp
           command: |
@@ -49,9 +46,11 @@ jobs:
       - run:
           name: Get GCC
           command: |
-            export RTT_CC='gcc'
             wget -q https://github.com/RT-Thread/toolchains-ci/releases/download/arm-2017q2-v6/gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 && sudo tar xjf gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 -C /opt && export RTT_EXEC_PATH=/opt/gcc-arm-none-eabi-6-2017-q2-update/bin && /opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-gcc --version || true
       - run:
           name: Build
           command: |
+            export PATH=~/.env/tools/scripts:$PATH
+            export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/scons-3.0.1
+            export RTT_CC='gcc'
             scons -j4
