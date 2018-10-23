@@ -436,10 +436,10 @@ except:
 
     try:
         from building import *
-    except e:
+    except Exception as e:
         print('Cannot found RT-Thread root directory, please check RTT_ROOT')
         print(RTT_ROOT)
-        print(e.message)
+        print(e)
         exit(-1)
 
 def GetCPU():
