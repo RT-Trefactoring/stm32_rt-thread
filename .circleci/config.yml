@@ -32,8 +32,10 @@ jobs:
             python -m site
             pip freeze
             python -c "import site; print(site.getsitepackages())"
-            ls /usr/lib/python2.7/site-packages/scons-3.0.1 || true
-            ls /usr/local/python/lib/python2.7/site-packages/scons-3.0.1 || true
+            ls /usr/local/lib/python2.7/site-packages || true
+            ls /usr/local/lib/python2.7/site-packages/scons-3.0.1 || true
+            ls /usr/local/lib/python2.7/dist-packages || true
+            ls /usr/local/lib/python2.7/dist-packages/scons-3.0.1 || true
 
             if [ ! -d ~/.env ]
             then
