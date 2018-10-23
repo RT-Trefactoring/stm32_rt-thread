@@ -30,7 +30,7 @@ jobs:
             pip install requests
             pip install clint
             export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/scons-3.0.1
-            python -c "import site; print(site.getsitepackages())"
+            python -m site
             if [ ! -d ~/.env ]
             then
             mkdir ~/.env
@@ -43,7 +43,9 @@ jobs:
             export PATH=~/.env/tools/scripts:$PATH
       - run:
           name: Setup stm32-rtthread bsp
-          command: python tools/install.py
+          command: |
+            export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/scons-3.0.1
+            python tools/install.py
       - run:
           name: Get GCC
           command: |
