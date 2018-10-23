@@ -1,0 +1,51 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:16.04
+    steps:
+      - checkout
+      - run:
+          name: Update submodules
+          command: |
+            git submodule sync --recursive
+            git submodule update --init --recursive
+      - run:
+          name: Install refer software
+          command: |
+            apt update
+            apt install -y sudo vim
+            apt install -y python scons python-pip gcc make git
+            apt install -y lib32ncurses5 lib32z1 net-tools inetutils-ping wget curl
+            dpkg --add-architecture i386
+            apt update
+            apt install -y libc6:i386 libncurses5:i386 libstdc++6:i386
+            apt install -y libc6-dev-i386
+            apt install -y libz1:i386
+      - run:
+          name: Generate RT-Thread Env
+          command: |
+            pip install requests
+            pip install clint
+            if [ ! -d ~/.env ]
+            then
+            mkdir ~/.env
+            mkdir ~/.env/local_pkgs
+            mkdir ~/.env/packages
+            git clone https://github.com/RT-Thread/packages.git ~/.env/packages/packages
+            git clone https://github.com/RT-Thread/env.git ~/.env/tools/scripts
+            echo -e "source \"$PKGS_DIR/packages/Kconfig\" \c" >> ~/.env/packages/Kconfig
+            fi
+            export PATH=~/.env/tools/scripts:$PATH
+      - run:
+          name: Setup stm32-rtthread bsp
+          command: python tools/install
+      - run:
+          name: Get GCC
+          command: |
+            export RTT_CC='gcc'
+            wget -q https://github.com/RT-Thread/toolchains-ci/releases/download/arm-2017q2-v6/gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 && sudo tar xjf gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 -C /opt && export RTT_EXEC_PATH=/opt/gcc-arm-none-eabi-6-2017-q2-update/bin && /opt/gcc-arm-none-eabi-6-2017-q2-update/bin/arm-none-eabi-gcc --version || true
+      - run:
+          name: Build
+          command: |
+            scons -j4
