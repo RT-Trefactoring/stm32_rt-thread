@@ -29,6 +29,9 @@ jobs:
             pip install scons
             pip install requests
             pip install clint
+            python -m site
+            pip freeze
+            python -c "import site; print(site.getsitepackages())"
             if [ ! -d ~/.env ]
             then
             mkdir ~/.env
