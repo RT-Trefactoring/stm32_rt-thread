@@ -29,10 +29,8 @@ jobs:
             pip install scons
             pip install requests
             pip install clint
-            python -m site
-            pip freeze
-            python -c "import site; print(site.getsitepackages())"
             export PYTHONPATH=/usr/local/lib/python2.7/dist-packages/scons-3.0.1
+            python -c "import site; print(site.getsitepackages())"
             if [ ! -d ~/.env ]
             then
             mkdir ~/.env
