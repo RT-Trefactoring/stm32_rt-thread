@@ -433,8 +433,10 @@ except:
     else:
         RTT_ROOT = os.path.normpath(os.getcwd() + '/rt-thread')
     sys.path.append(os.path.join(RTT_ROOT, 'tools'))
-
+    
     try:
+        import install
+        sys.path.append(os.path.join(install.get_env_dir(), 'tools/Python27/Lib/site-packages/scons-2.3.6'))
         from building import *
     except:
         print('Cannot found RT-Thread root directory, please check RTT_ROOT')
